@@ -2,27 +2,25 @@ import random
 
 def main(): 
     board = new_board()
-    current_player = 1 # dita o jogador
+    current_player = 1 
 
-    #LOOP WHILE PRINCIPAL
     while True:
         if current_player == 1:
             print("VEZ DO PLAYER: ")
-            render(board) # printa o novo quadro
+            render(board) 
         
         if current_player == 2:
             print("VEZ DO BOT: ")
             render(board)
 
-        move = None # inicializa o while
+        move = None
         while move == None:
             if current_player == 1:
-                move = get_move(board) # pede novamente até receber uma jogada valida
+                move = get_move(board) 
                 if move == None:
                     print("Movimento inválido! Tente novamente.")
             else:
                 move = get_ai_move(board)
-                                # move armazena em forma de lista
 
         make_move(board, move, current_player)
 
@@ -37,8 +35,7 @@ def main():
             print("EMPATE!")
             break 
 
-        current_player = 2 if current_player == 1 else 1  # dita o jogador
-               
+        current_player = 2 if current_player == 1 else 1  
 
 
 def new_board():
@@ -50,8 +47,7 @@ def new_board():
     return empty_board
 
 
-def render(board):
-    #LOOP in LOOP: print the 3x3 matrix none values in principle
+def render(board): 
     counter = 0
 
     print("    0 1 2")
@@ -60,7 +56,7 @@ def render(board):
     for line in board:
         print(counter, end=" ")
 
-        print("|", end=" ") # formatação
+        print("|", end=" ") 
         for col in line:
             print(col, end=" ")
         print("|")
@@ -71,33 +67,27 @@ def render(board):
 
 
 def get_move(board):
-    #LOOP: get condinate x and then y
     try:
         x = int(input("X: "))
         y = int(input("Y: "))
     except ValueError:
         return None
     
-    #check if the coordinates is available
-    if (2>= x >= 0) and (2>= y >= 0) and (board[x][y] == " "): # TODO: MELHORAR PFV
+
+    if (2>= x >= 0) and (2>= y >= 0) and (board[x][y] == " "):
         return [x,y] 
     else:
         return None
-    #return None if is a invalid move
 
 def make_move(board, move, current_player):
-    #LOOP in LOOP: change the value none in the (x,y)
     if current_player == 1:
         board[move[0]][move[1]] = 'O'
     else:
         board[move[0]][move[1]] = 'X'
-        
-    #to the sign of the current player "x" or "o"
-    #update the current board
 
-def get_winner(board): # TODO: REVISAR LOGICA
-    #check the conditions to win
-    for i in range(3): # checa a horizontal
+def get_winner(board): 
+
+    for i in range(3): 
         if board[i][0] == board[i][1] == board[i][2] and board[i][0] != " ":
             return board[i][0]
         
@@ -110,8 +100,6 @@ def get_winner(board): # TODO: REVISAR LOGICA
         return board[1][1]
     
     return None
-    # if the conditions are met: return the value of the winner
-    # else: return none
 
 def board_full(board):
     for i in board:
@@ -119,25 +107,22 @@ def board_full(board):
             if j == " ":
                 return False
     return True
-    #lOOP in LOOP: if there is no "None" in the board, then the board is full
 
 
 def get_ai_move(board):
-    #LOOP: get condinate x and then y
     best_score = -100
     best_move = []
 
     for x, line in enumerate(board):
         for y, cell in enumerate(line):
-            if cell == " ": # VERIFICA UMA POSSÍVEL JOGADA
-                board[x][y] = "X" # TESTA ESSA JOGADA
+            if cell == " ": 
+                board[x][y] = "X"
                 score = minimax(board, False )
-                board[x][y] = " " # RETORNA PARA NONE
+                board[x][y] = " "
 
-                # CHECA SE O SCORE DESSA JOGADA É O MEIOR
                 if score > best_score:
                     best_score = score
-                    best_move = [x,y]# ATUALIZA O MELHOR MOVIMENTO
+                    best_move = [x,y]
     return best_move
 
 def minimax(board, maximize):
@@ -157,12 +142,11 @@ def minimax(board, maximize):
 
         for x, line in enumerate(board):
             for y, cell in enumerate(line):
-                if cell == " ": # VERIFICA UMA POSSÍVEL JOGADA
-                    board[x][y] = "X" # TESTA ESSA JOGADA
+                if cell == " ": 
+                    board[x][y] = "X"
                     score = minimax(board, False )
-                    board[x][y] = " " # RETORNA PARA NONE
+                    board[x][y] = " "
 
-                    # CHECA SE O SCORE DESSA JOGADA É O MEIOR
                     if score > best_score:
                         best_score = score
         return best_score
@@ -173,12 +157,11 @@ def minimax(board, maximize):
 
         for x, line in enumerate(board):
             for y, cell in enumerate(line):
-                if cell == " ": # VERIFICA UMA POSSÍVEL JOGADA
-                    board[x][y] = "O" # TESTA ESSA JOGADA
+                if cell == " ": 
+                    board[x][y] = "O"
                     score = minimax(board, True )
-                    board[x][y] = " " # RETORNA PARA NONE
+                    board[x][y] = " " 
 
-                    # CHECA SE O SCORE DESSA JOGADA É O MEIOR
                     if score < best_score:
                         best_score = score
         
