@@ -5,7 +5,8 @@ def main():
     current_player = 1 # dita o jogador
 
     #LOOP WHILE PRINCIPAL
-    while True:
+    jogo_ativo = True
+    while jogo_ativo:
         if current_player == 1:
             print("VEZ DO PLAYER: ")
             render(board) # printa o novo quadro
@@ -30,12 +31,12 @@ def main():
         if winner is not None:
             render(board)
             print("O VENCEDOR É:", winner) 
-            break
+            jogo_ativo = False
 
         if board_full(board):
             render(board)
             print("EMPATE!")
-            break 
+            jogo_ativo = False
 
         current_player = 2 if current_player == 1 else 1  # dita o jogador
                
